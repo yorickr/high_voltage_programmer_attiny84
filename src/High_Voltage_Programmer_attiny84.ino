@@ -78,14 +78,18 @@ void loop()
   }
   count++;
   bool button_state = digitalRead(BUTTON);
-//  mySerial.print("Button");
-//  mySerial.println(button_state);
-  if (mySerial.available() > 0 || button_state) {
+  bool serial_state = (mySerial.available() > 0);
+  mySerial.print("Button");
+  mySerial.println(button_state);
+  mySerial.print("Serial1");
+  mySerial.println(serial_state);
+  if (serial_state || button_state) {
     // get incoming byte:
 //    inByte = Serial/.read();
-//    Serial.pr/intln(byte(inByte));
-//    Serial.p/rintln("Entering programming Mode\n");
     char read_char = mySerial.read();
+    mySerial.println(byte(inByte));
+    mySerial.println("Entering programming Mode\n");
+    
     if (!button_state) {
       if (read_char != 'y') {
         mySerial.println("Wrong character pressed, try again");
@@ -153,7 +157,8 @@ int shiftOut2(uint8_t dataPin, uint8_t dataPin1, uint8_t clockPin, uint8_t bitOr
     int inBits = 0;
     //Wait until DATAIN goes high
     
-//    while (!digitalRead(DATAIN));/
+//    while (!digitalRead(DATAIN));
+    // TODO: fix me 
     
     //Start bit
     digitalWrite(DATAOUT, LOW);
