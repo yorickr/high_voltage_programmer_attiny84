@@ -12,6 +12,9 @@
 // #define LFUSE 0x6A  
 
 #include <SoftwareSerial.h>
+
+#define BAUD_RATE 9600
+
 #define  RST     10    // Output to level shifter for !RESET from transistor to Pin 1
 #define  CLKOUT  9    // Connect to Serial Clock Input (SCI) Pin 2
 #define  DATAIN  0    // Connect to Serial Data Output (SDO) Pin 7
@@ -53,7 +56,7 @@ void setup()
   pinMode(RX_PIN, INPUT);
   pinMode(TX_PIN, OUTPUT);
   // set the data rate for the SoftwareSerial port
-  mySerial.begin(9600);
+  mySerial.begin(BAUD_RATE);
   mySerial.println("Hello, world?");
   
 //  establishContact();  // send a /byte to establish contact until receiver responds 
@@ -79,16 +82,16 @@ void loop()
   count++;
   bool button_state = digitalRead(BUTTON);
   bool serial_state = (mySerial.available() > 0);
-  mySerial.print("Button");
-  mySerial.println(button_state);
-  mySerial.print("Serial1");
-  mySerial.println(serial_state);
+  // mySerial.print("Button");
+  // mySerial.println(button_state);
+  // mySerial.print("Serial1");
+  // mySerial.println(serial_state);
   if (serial_state || button_state) {
     // get incoming byte:
 //    inByte = Serial/.read();
     char read_char = mySerial.read();
-    mySerial.println(byte(inByte));
-    mySerial.println("Entering programming Mode\n");
+    // mySerial.println(byte(read_char));
+    // mySerial.println("Entering programming Mode\n");
     
     if (!button_state) {
       if (read_char != 'y') {
@@ -157,7 +160,7 @@ int shiftOut2(uint8_t dataPin, uint8_t dataPin1, uint8_t clockPin, uint8_t bitOr
     int inBits = 0;
     //Wait until DATAIN goes high
     
-//    while (!digitalRead(DATAIN));
+   while (!digitalRead(DATAIN));
     // TODO: fix me 
     
     //Start bit
